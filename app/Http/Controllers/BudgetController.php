@@ -24,7 +24,7 @@ class BudgetController extends Controller
             $query->whereYear('tanggal_anggaran', $request->tahun);
         }
 
-        $budgets = $query->get();
+        $budgets = $query->paginate(10);
 
         return view('budgets.index', compact('budgets'));
     }

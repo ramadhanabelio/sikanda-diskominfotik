@@ -5,7 +5,7 @@
         <h3 class="fw-bold mb-3">Anggaran</h3>
         <ul class="breadcrumbs mb-3">
             <li class="nav-home">
-                <a href="/dashboard">
+                <a href="/">
                     <i class="icon-home"></i>
                 </a>
             </li>
@@ -52,44 +52,43 @@
                         @endif
                     </div>
 
-                    <div class="container mb-4">
-                        <div class="mb-3">
-                            <input type="text" id="searchInput" class="form-control" placeholder="Pencarian...">
+                    <div class="mb-2">
+                        <label for="search" class="form-label fw-bold">Pencarian</label>
+                        <input type="text" id="searchInput" class="form-control" placeholder="Pencarian...">
+                    </div>
+
+                    <form method="GET" action="{{ route('budgets.index') }}" class="row g-2 mb-4 align-items-end">
+                        <div class="col-lg-5 col-md-6">
+                            <label for="bulan" class="form-label fw-bold">Bulan</label>
+                            <select name="bulan" id="bulan" class="form-select">
+                                <option value="">Semua Bulan</option>
+                                @foreach (range(1, 12) as $b)
+                                    <option value="{{ $b }}" {{ request('bulan') == $b ? 'selected' : '' }}>
+                                        {{ DateTime::createFromFormat('!m', $b)->format('F') }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
 
-                        <form method="GET" action="{{ route('budgets.index') }}" class="row g-2 align-items-end">
-                            <div class="col-lg-5 col-md-6">
-                                <label for="bulan" class="form-label">Bulan</label>
-                                <select name="bulan" id="bulan" class="form-select">
-                                    <option value="">Semua Bulan</option>
-                                    @foreach (range(1, 12) as $b)
-                                        <option value="{{ $b }}" {{ request('bulan') == $b ? 'selected' : '' }}>
-                                            {{ DateTime::createFromFormat('!m', $b)->format('F') }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        <div class="col-lg-5 col-md-6">
+                            <label for="tahun" class="form-label fw-bold">Tahun</label>
+                            <select name="tahun" id="tahun" class="form-select">
+                                <option value="">Semua Tahun</option>
+                                @foreach (range(date('Y'), 2020) as $y)
+                                    <option value="{{ $y }}" {{ request('tahun') == $y ? 'selected' : '' }}>
+                                        {{ $y }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                            <div class="col-lg-5 col-md-6">
-                                <label for="tahun" class="form-label">Tahun</label>
-                                <select name="tahun" id="tahun" class="form-select">
-                                    <option value="">Semua Tahun</option>
-                                    @foreach (range(date('Y'), 2020) as $y)
-                                        <option value="{{ $y }}" {{ request('tahun') == $y ? 'selected' : '' }}>
-                                            {{ $y }}</option>
-                                    @endforeach
-                                </select>
+                        <div class="col-lg-2 col-md-12">
+                            <label class="form-label d-block invisible">Tombol</label>
+                            <div class="d-flex justify-content-between">
+                                <button type="submit" class="btn btn-primary w-50 me-1">Filter</button>
+                                <a href="{{ route('budgets.index') }}" class="btn btn-dark w-50 ms-1">Reset</a>
                             </div>
-
-                            <div class="col-lg-2 col-md-12">
-                                <label class="form-label d-block invisible">Tombol</label>
-                                <div class="d-flex justify-content-between">
-                                    <button type="submit" class="btn btn-primary w-50 me-1">Filter</button>
-                                    <a href="{{ route('budgets.index') }}" class="btn btn-dark w-50 ms-1">Reset</a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
 
                     <table class="table budget-table">
                         <thead>
@@ -130,7 +129,8 @@
                                 $lastSubJudul = '';
                                 $lastSubSubJudul = '';
                             @endphp
-                            @foreach ($budgets as $budget)
+
+                            @forelse ($budgets as $budget)
                                 @if ($budget->judul !== $lastJudul)
                                     <tr class="judul-row">
                                         <td colspan="21" class="bg-primary text-white">{{ $budget->judul }}</td>
@@ -196,9 +196,15 @@
                                         </div>
                                     </td> --}}
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="21" class="text-center">TIDAK ADA DATA</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
+
+                    {{ $budgets->links('pagination::bootstrap-5') }}
                 </div>
             </div>
         </div>
