@@ -1,0 +1,64 @@
+.budget-card-wrapper {
+    overflow-x: auto;
+    width: 100%;
+}
+
+table.budget-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+table.budget-table th,
+table.budget-table td {
+    border: 1px solid #999;
+    padding: 6px;
+    vertical-align: top;
+    text-align: left;
+}
+
+table.budget-table th {
+    background-color: #f2f2f2;
+    text-align: center;
+}
+
+.group-rr,
+.group-rf,
+.group-rk {
+    text-align: center;
+    font-weight: bold;
+}
+
+.group-rr {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.group-rf {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.group-rk {
+    background-color: #e2d6f3;
+    color: #4a235a;
+}
+
+.judul-row {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.sub-judul-row {
+    background-color: #d9edf7;
+    font-weight: bold;
+}
+
+.sub-sub-judul-row {
+    font-weight: bold;
+}
+
+.uraian-row td {
+    padding-left: 20px;
+}

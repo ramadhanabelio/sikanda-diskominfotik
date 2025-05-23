@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BudgetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
+
+Route::get('/budgets', function () {
+    return view('budgets.index');
+});
+
+Route::get('/budgets/create', function () {
+    return view('budgets.create');
+});
+
+Route::get('/budgets/edit', function () {
+    return view('budgets.edit');
+});
+
+Route::resource('budgets', BudgetController::class);
+Route::get('budgets-export-pdf', [BudgetController::class, 'exportPdf'])->name('budgets.exportPdf');
+Route::get('budgets-export-excel', [BudgetController::class, 'exportExcel'])->name('budgets.exportExcel');
