@@ -21,7 +21,8 @@
                     <option value="">Pilih Kegiatan</option>
                     @foreach ($judulList as $judulItem)
                         <option value="{{ $judulItem }}"
-                            {{ old('judul', $budget->judul ?? '') == $judulItem ? 'selected' : '' }}>{{ $judulItem }}
+                            {{ old('judul', $budget->judul ?? '') == $judulItem ? 'selected' : '' }}>
+                            {{ $judulItem }}
                         </option>
                     @endforeach
                 </select>

@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Title;
 use App\Models\Budget;
+use App\Models\Subtitle;
+use App\Models\Description;
+use App\Models\SubSubtitle;
 use Illuminate\Http\Request;
 use App\Exports\BudgetsExport;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -32,10 +36,10 @@ class BudgetController extends Controller
     public function create()
     {
         return view('budgets.create', [
-            'judulList' => Budget::distinct()->pluck('judul'),
-            'subJudulList' => Budget::distinct()->pluck('sub_judul'),
-            'subSubJudulList' => Budget::distinct()->pluck('sub_sub_judul'),
-            'uraianList' => Budget::distinct()->pluck('uraian'),
+            'judulList' => Title::pluck('judul'),
+            'subJudulList' => Subtitle::pluck('sub_judul'),
+            'subSubJudulList' => SubSubtitle::pluck('sub_sub_judul'),
+            'uraianList' => Description::pluck('uraian'),
             'satuanList' => Budget::distinct()->pluck('satuan'),
             'satuan_rrList' => Budget::distinct()->pluck('satuan_rr'),
             'satuan_rfList' => Budget::distinct()->pluck('satuan_rf'),
@@ -78,7 +82,6 @@ class BudgetController extends Controller
         ]);
 
         $jumlah_anggaran = $request->volume * $request->harga_satuan;
-
         $totalBudget = Budget::sum('jumlah_anggaran');
         $bobot = $totalBudget > 0 ? ($jumlah_anggaran / $totalBudget) * 100 : 0;
 
@@ -114,6 +117,21 @@ class BudgetController extends Controller
 
         $budget->save();
 
+        $fields = [
+            'judul_baru'         => [Title::class, 'judul'],
+            'sub_judul_baru'     => [Subtitle::class, 'sub_judul'],
+            'sub_sub_judul_baru' => [SubSubtitle::class, 'sub_sub_judul'],
+            'uraian_baru'        => [Description::class, 'uraian'],
+        ];
+
+        foreach ($fields as $input => [$model, $column]) {
+            if ($request->filled($input)) {
+                $model::firstOrCreate([
+                    $column => $request->$input
+                ]);
+            }
+        }
+
         return redirect()->route('budgets.index')->with('success', 'Anggaran berhasil ditambahkan.');
     }
 
@@ -121,10 +139,10 @@ class BudgetController extends Controller
     {
         return view('budgets.edit', [
             'budget' => $budget,
-            'judulList' => Budget::distinct()->pluck('judul'),
-            'subJudulList' => Budget::distinct()->pluck('sub_judul'),
-            'subSubJudulList' => Budget::distinct()->pluck('sub_sub_judul'),
-            'uraianList' => Budget::distinct()->pluck('uraian'),
+            'judulList' => Title::pluck('judul'),
+            'subJudulList' => Subtitle::pluck('sub_judul'),
+            'subSubJudulList' => SubSubtitle::pluck('sub_sub_judul'),
+            'uraianList' => Description::pluck('uraian'),
             'satuanList' => Budget::distinct()->pluck('satuan'),
             'satuan_rrList' => Budget::distinct()->pluck('satuan_rr'),
             'satuan_rfList' => Budget::distinct()->pluck('satuan_rf'),
@@ -168,10 +186,21 @@ class BudgetController extends Controller
             'sisa_anggaran' => 'nullable|numeric',
         ]);
 
+        $fieldMappings = [
+            'judul_baru'         => [Title::class, 'judul'],
+            'sub_judul_baru'     => [Subtitle::class, 'sub_judul'],
+            'sub_sub_judul_baru' => [SubSubtitle::class, 'sub_sub_judul'],
+            'uraian_baru'        => [Description::class, 'uraian'],
+        ];
+
+        foreach ($fieldMappings as $input => [$model, $column]) {
+            if ($request->filled($input) && $model) {
+                $model::firstOrCreate([$column => $request->$input]);
+            }
+        }
+
         $jumlah_anggaran = $request->volume * $request->harga_satuan;
-
         $totalBudget = Budget::where('id', '!=', $budget->id)->sum('jumlah_anggaran');
-
         $newTotalBudget = $totalBudget + $jumlah_anggaran;
         $bobot = $newTotalBudget > 0 ? ($jumlah_anggaran / $newTotalBudget) * 100 : 0;
 

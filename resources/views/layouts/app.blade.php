@@ -84,53 +84,44 @@
                                 <p>Anggaran</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarLayouts">
+
+                        @php
+                            $programRoutes = ['titles.*', 'subtitles.*', 'sub-subtitles.*', 'descriptions.*'];
+                            $isProgramActive = request()->routeIs(...$programRoutes);
+                        @endphp
+
+                        <li class="nav-item {{ $isProgramActive ? 'active' : '' }}">
+                            <a data-bs-toggle="collapse" href="#sidebarLayouts"
+                                {{ $isProgramActive ? 'aria-expanded=true' : '' }}>
                                 <i class="fas fa-layer-group"></i>
                                 <p>Program</p>
                                 <span class="caret"></span>
                             </a>
-                            <div class="collapse" id="sidebarLayouts">
+                            <div class="collapse {{ $isProgramActive ? 'show' : '' }}" id="sidebarLayouts">
                                 <ul class="nav nav-collapse">
-                                    <li>
-                                        <a href="">
-                                            <span class="sub-item">Judul</span>
+                                    <li class="{{ request()->routeIs('titles.*') ? 'active' : '' }}">
+                                        <a href="{{ route('titles.index') }}">
+                                            <span class="sub-item">Kegiatan</span>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="">
-                                            <span class="sub-item">Sub Judul</span>
+                                    <li class="{{ request()->routeIs('subtitles.*') ? 'active' : '' }}">
+                                        <a href="{{ route('subtitles.index') }}">
+                                            <span class="sub-item">Sub Kegiatan</span>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="">
-                                            <span class="sub-item">Sub Sub Judul</span>
+                                    <li class="{{ request()->routeIs('sub-subtitles.*') ? 'active' : '' }}">
+                                        <a href="{{ route('sub-subtitles.index') }}">
+                                            <span class="sub-item">Sub Sub Kegiatan</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ request()->routeIs('descriptions.*') ? 'active' : '' }}">
+                                        <a href="{{ route('descriptions.index') }}">
+                                            <span class="sub-item">Uraian</span>
                                         </a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
-                        {{-- <li class="nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarLayouts">
-                                <i class="fas fa-th-large"></i>
-                                <p>Master Data</p>
-                                <span class="caret"></span>
-                            </a>
-                            <div class="collapse" id="sidebarLayouts">
-                                <ul class="nav nav-collapse">
-                                    <li>
-                                        <a href="">
-                                            <span class="sub-item">Bidang</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="">
-                                            <span class="sub-item">Pengguna</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li> --}}
                     </ul>
                 </div>
             </div>
@@ -256,6 +247,57 @@
 
     <!-- Kaiadmin JS -->
     <script src="{{ asset('js/kaiadmin.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#basic-datatables').DataTable({});
+
+            $('#multi-filter-select').DataTable({
+                "pageLength": 5,
+                initComplete: function() {
+                    this.api().columns().every(function() {
+                        var column = this;
+                        var select = $(
+                                '<select class="form-select"><option value=""></option></select>'
+                            )
+                            .appendTo($(column.footer()).empty())
+                            .on('change', function() {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                        column.data().unique().sort().each(function(d, j) {
+                            select.append('<option value="' + d + '">' + d +
+                                '</option>')
+                        });
+                    });
+                }
+            });
+
+            // Add Row
+            $('#add-row').DataTable({
+                "pageLength": 5,
+            });
+
+            var action =
+                '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+            $('#addRowButton').click(function() {
+                $('#add-row').dataTable().fnAddData([
+                    $("#addName").val(),
+                    $("#addPosition").val(),
+                    $("#addOffice").val(),
+                    action
+                ]);
+                $('#addRowModal').modal('hide');
+
+            });
+        });
+    </script>
 </body>
 
 </html>
