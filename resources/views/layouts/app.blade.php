@@ -66,8 +66,8 @@
             <div class="sidebar-wrapper scrollbar scrollbar-inner">
                 <div class="sidebar-content">
                     <ul class="nav nav-secondary">
-                        <li class="nav-item active">
-                            <a data-bs-toggle="collapse" href="/dashboard" class="collapsed" aria-expanded="false">
+                        <li class="nav-item {{ Request::is('/') ? 'active' : '' }}">
+                            <a href="/" class="collapsed" aria-expanded="false">
                                 <i class="fas fa-home"></i>
                                 <p>Dashboard</p>
                             </a>
@@ -78,8 +78,8 @@
                             </span>
                             <h4 class="text-section">Menu</h4>
                         </li>
-                        <li class="nav-item">
-                            <a data-bs-toggle="collapse" href="/anggaran">
+                        <li class="nav-item {{ request()->routeIs('budgets.index') ? 'active' : '' }}">
+                            <a href="{{ route('budgets.index') }}">
                                 <i class="fas fa-wallet"></i>
                                 <p>Anggaran</p>
                             </a>

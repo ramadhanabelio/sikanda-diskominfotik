@@ -93,7 +93,7 @@
             <div class="form-group">
                 <label for="volume">Volume</label>
                 <input type="number" step="0.01" class="form-control" id="volume" name="volume"
-                    value="{{ old('volume', $budget->volume ?? '') }}" required>
+                    value="{{ old('volume', $budget->volume ?? '') }}">
             </div>
 
             {{-- Satuan --}}
@@ -118,7 +118,7 @@
                 <div class="input-group">
                     <span class="input-group-text">Rp.</span>
                     <input type="number" step="0.01" class="form-control" id="harga_satuan" name="harga_satuan"
-                        value="{{ old('harga_satuan', $budget->harga_satuan ?? '') }}" required />
+                        value="{{ old('harga_satuan', $budget->harga_satuan ?? '') }}" />
                 </div>
             </div>
 

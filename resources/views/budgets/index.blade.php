@@ -155,25 +155,28 @@
 
                                 <tr class="uraian-row">
                                     <td></td>
-                                    <td>{{ $budget->uraian }}</td>
-                                    <td>{{ $budget->pejabat_penanggung_jawab }}</td>
-                                    <td>{{ $budget->waktu_pelaksanaan }}</td>
-                                    <td>{{ $budget->volume }}</td>
-                                    <td>{{ $budget->satuan }}</td>
-                                    <td>Rp. {{ number_format($budget->harga_satuan, 0, ',', '.') }}</td>
-                                    <td>Rp. {{ number_format($budget->jumlah_anggaran, 0, ',', '.') }}</td>
-                                    <td>{{ $budget->bobot }}</td>
-                                    <td>{{ $budget->volume_nominal_rr }}</td>
-                                    <td>{{ $budget->satuan_rr }}</td>
-                                    <td>{{ $budget->fisik_rr }}</td>
-                                    <td>{{ $budget->tertimbang_rr }}</td>
-                                    <td>{{ $budget->volume_nominal_rf }}</td>
-                                    <td>{{ $budget->satuan_rf }}</td>
-                                    <td>{{ $budget->fisik_rf }}</td>
-                                    <td>{{ $budget->tertimbang_rf }}</td>
-                                    <td>Rp. {{ number_format($budget->rupiah_rk, 0, ',', '.') }}</td>
-                                    <td>{{ $budget->persentase_rk }}</td>
-                                    <td>{{ $budget->tertimbang_rk }}</td>
+                                    <td>{{ $budget->uraian ?? '-' }}</td>
+                                    <td>{{ $budget->pejabat_penanggung_jawab ?? '-' }}</td>
+                                    <td>{{ $budget->waktu_pelaksanaan ?? '-' }}</td>
+                                    <td>{{ $budget->volume ?? '-' }}</td>
+                                    <td>{{ $budget->satuan ?? '-' }}</td>
+                                    <td>{{ $budget->harga_satuan ? 'Rp. ' . number_format($budget->harga_satuan, 0, ',', '.') : '-' }}
+                                    </td>
+                                    <td>{{ $budget->jumlah_anggaran ? 'Rp. ' . number_format($budget->jumlah_anggaran, 0, ',', '.') : '-' }}
+                                    </td>
+                                    <td>{{ $budget->bobot !== null ? number_format($budget->bobot, 2) . '%' : '-' }}</td>
+                                    <td>{{ $budget->volume_nominal_rr ?? '-' }}</td>
+                                    <td>{{ $budget->satuan_rr ?? '-' }}</td>
+                                    <td>{{ $budget->fisik_rr ?? '-' }}</td>
+                                    <td>{{ $budget->tertimbang_rr ?? '-' }}</td>
+                                    <td>{{ $budget->volume_nominal_rf ?? '-' }}</td>
+                                    <td>{{ $budget->satuan_rf ?? '-' }}</td>
+                                    <td>{{ $budget->fisik_rf ?? '-' }}</td>
+                                    <td>{{ $budget->tertimbang_rf ?? '-' }}</td>
+                                    <td>{{ $budget->rupiah_rk ? 'Rp. ' . number_format($budget->rupiah_rk, 0, ',', '.') : '-' }}
+                                    </td>
+                                    <td>{{ $budget->persentase_rk ?? '-' }}</td>
+                                    <td>{{ $budget->tertimbang_rk ?? '-' }}</td>
                                     <td>{{ $budget->sisa_anggaran ? 'Rp. ' . number_format($budget->sisa_anggaran, 0, ',', '.') : '-' }}
                                     </td>
                                     {{-- <td>

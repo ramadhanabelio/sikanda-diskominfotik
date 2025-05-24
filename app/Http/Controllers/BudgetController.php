@@ -77,18 +77,22 @@ class BudgetController extends Controller
             'sisa_anggaran' => 'nullable|numeric',
         ]);
 
+        $jumlah_anggaran = $request->volume * $request->harga_satuan;
+
+        $totalBudget = Budget::sum('jumlah_anggaran');
+        $bobot = $totalBudget > 0 ? ($jumlah_anggaran / $totalBudget) * 100 : 0;
+
         $budget = new Budget();
         $budget->tanggal_anggaran = $request->tanggal_anggaran;
-
         $budget->judul = $request->judul_baru ?: $request->judul;
         $budget->sub_judul = $request->sub_judul_baru ?: $request->sub_judul;
         $budget->sub_sub_judul = $request->sub_sub_judul_baru ?: $request->sub_sub_judul;
         $budget->uraian = $request->uraian_baru ?: $request->uraian;
         $budget->satuan = $request->satuan_baru ?: $request->satuan;
-
         $budget->volume = $request->volume;
         $budget->harga_satuan = $request->harga_satuan;
         $budget->jumlah_anggaran = $request->volume * $request->harga_satuan;
+        $budget->bobot = $bobot;
 
         $budget->pejabat_penanggung_jawab = $request->pejabat_penanggung_jawab;
         $budget->waktu_pelaksanaan = $request->waktu_pelaksanaan;
@@ -164,8 +168,14 @@ class BudgetController extends Controller
             'sisa_anggaran' => 'nullable|numeric',
         ]);
 
-        $budget->tanggal_anggaran = $request->tanggal_anggaran;
+        $jumlah_anggaran = $request->volume * $request->harga_satuan;
 
+        $totalBudget = Budget::where('id', '!=', $budget->id)->sum('jumlah_anggaran');
+
+        $newTotalBudget = $totalBudget + $jumlah_anggaran;
+        $bobot = $newTotalBudget > 0 ? ($jumlah_anggaran / $newTotalBudget) * 100 : 0;
+
+        $budget->tanggal_anggaran = $request->tanggal_anggaran;
         $budget->judul = $request->judul_baru ?: $request->judul;
         $budget->sub_judul = $request->sub_judul_baru ?: $request->sub_judul;
         $budget->sub_sub_judul = $request->sub_sub_judul_baru ?: $request->sub_sub_judul;
@@ -175,6 +185,7 @@ class BudgetController extends Controller
         $budget->volume = $request->volume;
         $budget->harga_satuan = $request->harga_satuan;
         $budget->jumlah_anggaran = $request->volume * $request->harga_satuan;
+        $budget->bobot = $bobot;
 
         $budget->pejabat_penanggung_jawab = $request->pejabat_penanggung_jawab;
         $budget->waktu_pelaksanaan = $request->waktu_pelaksanaan;
