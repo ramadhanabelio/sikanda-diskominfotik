@@ -95,13 +95,49 @@
             <div class="card card-round">
                 <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
-                        <div class="card-title">Perkembangan Anggaran Bulanan</div>
+                        <div class="card-title">Anggaran Berdasarkan Sub Kegiatan</div>
                     </div>
                 </div>
-                <div class="card-body p-0">
-                    <canvas></canvas>
+                <div class="card-body">
+                    <canvas id="budgetChart"></canvas>
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('budgetChart').getContext('2d');
+        const chartData = @json($budgetChart);
+
+        const labels = chartData.map(item => item.sub_judul);
+        const data = chartData.map(item => item.total_anggaran);
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Total Anggaran',
+                    data: data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return 'Rp ' + new Intl.NumberFormat('id-ID').format(value);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 @endsection
