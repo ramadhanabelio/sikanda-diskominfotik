@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>SiKANDA</title>
+    <title>SiKANDA - @yield('title')</title>
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('img/diskominfo.png') }}" type="image/x-icon" />
 

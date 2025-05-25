@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>SiKANDA</title>
+    <title>SiKANDA - @yield('title')</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('img/diskominfo.png') }}" type="image/x-icon" />
@@ -174,7 +174,7 @@
                                     <div class="dropdown-user-scroll scrollbar-outer">
                                         <li>
                                             <a class="dropdown-item" href="{{ route('profile') }}">
-                                                <i class="fas fa-user me-2"></i> Profile
+                                                <i class="fas fa-user me-2"></i> Profil
                                             </a>
                                         </li>
                                         <li>

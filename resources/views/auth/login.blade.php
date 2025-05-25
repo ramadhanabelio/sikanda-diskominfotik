@@ -1,5 +1,7 @@
 @extends('layouts.auth')
 
+@section('title', 'Masuk')
+
 @section('content')
     <h2>Masuk ke SiKANDA</h2>
     <form method="POST" action="{{ route('login') }}">
