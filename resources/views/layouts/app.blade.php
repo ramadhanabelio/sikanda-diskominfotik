@@ -66,8 +66,8 @@
             <div class="sidebar-wrapper scrollbar scrollbar-inner">
                 <div class="sidebar-content">
                     <ul class="nav nav-secondary">
-                        <li class="nav-item {{ Request::is('/') ? 'active' : '' }}">
-                            <a href="/" class="collapsed" aria-expanded="false">
+                        <li class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                            <a href="{{ route('dashboard') }}" class="collapsed" aria-expanded="false">
                                 <i class="fas fa-home"></i>
                                 <p>Dashboard</p>
                             </a>
@@ -166,26 +166,27 @@
                                             class="avatar-img rounded-circle">
                                     </div>
                                     <span class="profile-username">
-                                        <span class="op-7">Selamat Datang,</span> <span
-                                            class="fw-bold">Persandian</span>
+                                        <span class="op-7">Selamat Datang,</span>
+                                        <span class="fw-bold">{{ Auth::user()->name }}</span>
                                     </span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-user animated fadeIn">
                                     <div class="dropdown-user-scroll scrollbar-outer">
                                         <li>
-                                            <a class="dropdown-item" href="">
-                                                <i class="fas fa-user me-2"></i> View Profile
+                                            <a class="dropdown-item" href="{{ route('profile') }}">
+                                                <i class="fas fa-user me-2"></i> Profile
                                             </a>
                                         </li>
                                         <li>
                                             <div class="dropdown-divider"></div>
                                         </li>
-                                        <li>
-                                            <a class="dropdown-item" href=""
+                                        <li class="text-danger">
+                                            <a class="dropdown-item" href="#"
                                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                                <i class="fas fa-sign-out-alt me-2"></i> Keluar
                                             </a>
-                                            <form id="logout-form" action="" method="POST" class="d-none">
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                class="d-none">
                                                 @csrf
                                             </form>
                                         </li>
