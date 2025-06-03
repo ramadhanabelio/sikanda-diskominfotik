@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Subtitle;
 use App\Models\SubSubtitle;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class SubSubtitleController extends Controller
 {
@@ -15,12 +17,14 @@ class SubSubtitleController extends Controller
 
     public function create()
     {
-        return view('sub-subtitles.create');
+        $subtitles = Subtitle::all();
+        return view('sub-subtitles.create', compact('subtitles'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'subtitle_id' => 'required|exists:subtitles,id',
             'sub_sub_judul' => 'required|string|max:255',
         ]);
 
@@ -31,12 +35,14 @@ class SubSubtitleController extends Controller
 
     public function edit(SubSubtitle $sub_subtitle)
     {
-        return view('sub-subtitles.edit', compact('sub_subtitle'));
+        $subtitles = Subtitle::all();
+        return view('sub-subtitles.edit', compact('sub_subtitle', 'subtitles'));
     }
 
     public function update(Request $request, SubSubtitle $sub_subtitle)
     {
         $validated = $request->validate([
+            'subtitle_id' => 'required|exists:subtitles,id',
             'sub_sub_judul' => 'required|string|max:255',
         ]);
 

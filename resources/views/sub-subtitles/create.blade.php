@@ -38,6 +38,16 @@
                         <div class="col-md-6 col-lg-12">
                             @csrf
                             <div class="mb-3">
+                                <label for="subtitle_id" class="form-label">Pilih Sub Kegiatan</label>
+                                <select name="subtitle_id" class="form-control" required>
+                                    <option value="">Pilih Sub Kegiatan</option>
+                                    @foreach ($subtitles as $subtitle)
+                                        <option value="{{ $subtitle->id }}">{{ $subtitle->sub_judul }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
                                 <label for="sub_sub_judul" class="form-label">Sub Sub Kegiatan</label>
                                 <input type="text" class="form-control" name="sub_sub_judul" required>
                             </div>

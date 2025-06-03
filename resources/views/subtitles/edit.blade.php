@@ -39,6 +39,18 @@
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
+                                <label for="title_id" class="form-label">Pilih Kegiatan</label>
+                                <select name="title_id" class="form-control" required>
+                                    <option value="">Pilih Kegiatan</option>
+                                    @foreach ($titles as $title)
+                                        <option value="{{ $title->id }}"
+                                            {{ $subtitle->title_id == $title->id ? 'selected' : '' }}>
+                                            {{ $title->judul }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3">
                                 <label for="sub_judul" class="form-label">Sub Kegiatan</label>
                                 <input type="text" class="form-control" name="sub_judul"
                                     value="{{ $subtitle->sub_judul }}" required>

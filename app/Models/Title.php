@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Subtitle;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Title extends Model
 {
@@ -12,4 +13,9 @@ class Title extends Model
     protected $fillable = [
         'judul',
     ];
+
+    public function subtitles()
+    {
+        return $this->hasMany(Subtitle::class);
+    }
 }

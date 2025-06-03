@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Description;
+use App\Models\SubSubtitle;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,12 +17,14 @@ class DescriptionController extends Controller
 
     public function create()
     {
-        return view('descriptions.create');
+        $sub_subtitles = SubSubtitle::all();
+        return view('descriptions.create', compact('sub_subtitles'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'sub_subtitle_id' => 'required|exists:sub_subtitles,id',
             'uraian' => 'required|string|max:255',
         ]);
 
@@ -32,12 +35,14 @@ class DescriptionController extends Controller
 
     public function edit(Description $description)
     {
-        return view('descriptions.edit', compact('description'));
+        $sub_subtitles = SubSubtitle::all();
+        return view('descriptions.edit', compact('description', 'sub_subtitles'));
     }
 
     public function update(Request $request, Description $description)
     {
         $validated = $request->validate([
+            'sub_subtitle_id' => 'required|exists:sub_subtitles,id',
             'uraian' => 'required|string|max:255',
         ]);
 

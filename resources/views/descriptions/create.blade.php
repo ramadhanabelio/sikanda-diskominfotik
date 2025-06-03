@@ -38,6 +38,15 @@
                         <div class="col-md-6 col-lg-12">
                             @csrf
                             <div class="mb-3">
+                                <label for="sub_subtitle_id" class="form-label">Pilih Sub Sub Kegiatan</label>
+                                <select name="sub_subtitle_id" class="form-control" required>
+                                    <option value="">Pilih Sub Sub Kegiatan</option>
+                                    @foreach ($sub_subtitles as $sub)
+                                        <option value="{{ $sub->id }}">{{ $sub->sub_sub_judul }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3">
                                 <label for="uraian" class="form-label">Uraian</label>
                                 <input type="text" class="form-control" name="uraian" required>
                             </div>
